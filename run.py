@@ -6,7 +6,7 @@ import gspread
 # as we only need this class no need to import the whole library
 from google.oauth2.service_account import Credentials
 
-# constant variables in capitals, to tell others they shouldn't be changed
+# constant variables in all uppercase, to tell others they shouldn't be changed
 # lists the APIs the program should access in order to run
 SCOPE = [
     "https://www.googleapis.com/auth/spreadsheets",
@@ -21,10 +21,16 @@ SCOPED_CREDS = CREDS.with_scopes(SCOPE)
 GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 SHEET = GSPREAD_CLIENT.open('love_sandwiches')    
 
-# uses the worksheet method from gspread to access the spreadsheet data in a variable we call 'sales'
-sales = SHEET.worksheet('sales')
 
-# uses a method from gspread to pull all the values from the sales worksheet using the sales variable we made
-data = sales.get_all_values()
+def get_sales_data():
+    """
+    Get sales figures input from the user
+    """
+    print("Please enter sales data from the last market.")
+    print("Data should be six numbers, seperated by commas.")
+    print("Example: 10,20,30,40,50,60\n")
 
-print(data)
+    data_str = input("Enter your data here: ")
+    print(f"The data provided is {data_str}")
+
+get_sales_data()    
