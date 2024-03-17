@@ -31,6 +31,31 @@ def get_sales_data():
     print("Example: 10,20,30,40,50,60\n")
 
     data_str = input("Enter your data here: ")
-    print(f"The data provided is {data_str}")
+    
+    # split function converts one full string at the commas into a seperate list of items so each item can be seperatly accessed
+    # eg not "1,2,3,4", but ["1", "2", "3", "4"]
+    sales_data = data_str.split(",")
+    validate_data(sales_data)
 
-get_sales_data()    
+
+def validate_data(values):  
+    """
+    Inside the try, converts all string values into integers
+    Raises ValueError if strings cannot be converted into int
+    or if there aren't exactly 6 values 
+    if the data contains anything else it will break the program
+    """
+    try:
+        # len() method reterns the length of the list. if the length (amount) of values is not equal to 6
+        # raise error message saying how many values were input
+        if len(values) != 6:
+            raise ValueError(
+                f"Exactly 6 values required, you provided {len(values)}"
+            )
+    # using the "as" keyword assign ValueError object to "e" variable, which is  standard python shorthand for "error" 
+    # then can insert the e variable into an f string instead of writing ValueError        
+    except ValueError as e:
+        print(f"Invalid data: {e}, please try again.\n")
+
+
+get_sales_data()  
