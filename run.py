@@ -26,17 +26,26 @@ def get_sales_data():
     """
     Get sales figures input from the user
     """
-    print("Please enter sales data from the last market.")
-    print("Data should be six numbers, seperated by commas.")
-    print("Example: 10,20,30,40,50,60\n")
+    # while loop to keep requesting data after an invalid responce until we get a valid response
+    while True:
+        print("Please enter sales data from the last market.")
+        print("Data should be six numbers, seperated by commas.")
+        print("Example: 10,20,30,40,50,60\n")
 
-    data_str = input("Enter your data here: ")
+        data_str = input("Enter your data here: ")
+        
+        # split function converts one full string at the commas into a seperate list of items so each item can be seperatly accessed
+        # eg not "1,2,3,4", but ["1", "2", "3", "4"] they are still strings though and have to be turned into integers to work on mathematically
+        sales_data = data_str.split(",")
+        
+        # call validate_data function and get its returned function: true/false if true it ends the while loop, if false it continues
+        # just need "if" that means if true, otherwise its false, "break" keyword ends the loop
+        if validate_data(sales_data):
+            print("Data is valid!")
+            break
     
-    # split function converts one full string at the commas into a seperate list of items so each item can be seperatly accessed
-    # eg not "1,2,3,4", but ["1", "2", "3", "4"] they are still strings though and have to be turned into integers to work on mathematically
-    sales_data = data_str.split(",")
-    validate_data(sales_data)
-
+    # gets the values from the variable sales_data when a valid input has been recieved
+    return sales_data        
 
 def validate_data(values):  
     """
@@ -58,6 +67,11 @@ def validate_data(values):
     # then can insert the e variable into an f string instead of writing ValueError        
     except ValueError as e:
         print(f"Invalid data: {e}, please try again.\n")
+        # if an error is thrown return false to continue while loop asking for valid input
+        return False
 
+    # return true ending while loop
+    return True  
 
-get_sales_data()  
+# gets the sales_data input into the get_sales_data function and puts it into the variable data so it can be used
+data = get_sales_data()  
