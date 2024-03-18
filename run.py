@@ -33,7 +33,7 @@ def get_sales_data():
     data_str = input("Enter your data here: ")
     
     # split function converts one full string at the commas into a seperate list of items so each item can be seperatly accessed
-    # eg not "1,2,3,4", but ["1", "2", "3", "4"]
+    # eg not "1,2,3,4", but ["1", "2", "3", "4"] they are still strings though and have to be turned into integers to work on mathematically
     sales_data = data_str.split(",")
     validate_data(sales_data)
 
@@ -46,6 +46,8 @@ def validate_data(values):
     if the data contains anything else it will break the program
     """
     try:
+        # loops through the values (sales_data) array and turns the strings in to integers
+        [int(value) for value in values]
         # len() method reterns the length of the list. if the length (amount) of values is not equal to 6
         # raise error message saying how many values were input
         if len(values) != 6:
