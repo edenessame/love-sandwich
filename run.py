@@ -110,7 +110,21 @@ def calculate_surplus_data(sales_row):
     stock = SHEET.worksheet("stock").get_all_values() 
     # gets the last array from what is returned above
     stock_row = stock[-1]
-    print(stock_row)
+    
+    # empty array to store the surplus data retrieved from the for loop bellow
+    surplus_data = []
+    # for loop to iterate through 2 lists using the zip method
+    # reterns each item in the stock_row/sales_row arrays and adds them to the stock or sales variables 
+    for stock, sales in zip(stock_row, sales_row):
+        # then subtract one from the other to get the surplus amount in a variable: "surplus" 
+        # but first use int() to turn the items returned from the stock variable, which will be strings
+        # into integers so one can be subtracted from the other
+        # and using .append() update the empty surplus_data array with the values retrieved 
+        surplus = int(stock) - sales
+        surplus_data.append(surplus)
+    
+    # return the suplus_data array created in the function and store it in a variable in the main function
+    return surplus_data   
 
 
 def main():
@@ -127,7 +141,9 @@ def main():
     # calls upate_sales_worksheet functionand passes it the sales_data variable with all the data
     update_sales_worksheet(sales_data)
     # calls calculate_surplus_data function, passing it the sales_data list to use in the calculation
-    calculate_surplus_data(sales_data)
+    # subtracting it from the stock to get the new surplus data
+    new_surplus_data = calculate_surplus_data(sales_data)
+    print(new_surplus_data)
 
 
 print("Welcome to Love Sandwiches Data Automation")
