@@ -2,9 +2,13 @@
 # have to install them into the project using:"pip3 install gspread google-auth" in the terminal
 # imports the whole gspread library and can access any funtion, method or class within it
 import gspread
+
 # imports just the credentials class which is part of the service funtion, from the google auth library 
 # as we only need this class no need to import the whole library
 from google.oauth2.service_account import Credentials
+
+# imports pprint method that prints data that is easier to read
+from pprint import pprint
 
 # constant variables in all uppercase, to tell others they shouldn't be changed
 # lists the APIs the program should access in order to run
@@ -92,12 +96,41 @@ def update_sales_worksheet(data):
     sales_worksheet.append_row(data)
     print("Sales worksheet updated successfully.\n")
 
+def calculate_surplus_data(sales_row):
+    """
+    Compare sales with stock and calculate the surplus for each item type
+    the surplus is defined as the sales figure subtracted from the stock:
+    - positive surplus indicates waste
+    - negative surplus indicates extras made when stock ran out
+    """
+    print("Calculating surplus data...\n")
+    
+    # gets the data from the stock worksheet in google sheets and puts it in a variable "stock"
+    # .get_all_values gets all the data from the worksheet and returns it in multiple arrays of the different rows
+    stock = SHEET.worksheet("stock").get_all_values() 
+    # gets the last array from what is returned above
+    stock_row = stock[-1]
+    print(stock_row)
 
 
-# gets the sales_data input into the get_sales_data function and puts it into the variable data so it can be used
-data = get_sales_data()  
-# loops through the data array and turns the strings in to integers and assigns it to sales_data variable
-# so it can be used mathematically. different to the previously used sales_data variable
-sales_data = [int(num) for num in data]
-# calls upate_sales_worksheet functionand passes it the sales_data variable with all the data
-update_sales_worksheet(sales_data)
+def main():
+    """
+    runs all the main functions
+    Common practice to wrap the main function calls in a function called "main"
+    functions have to be called bellow themselves to work 
+    """
+    # gets the sales_data input into the get_sales_data function and puts it into the variable data so it can be used
+    data = get_sales_data()  
+    # loops through the data array and turns the strings in to integers and assigns it to sales_data variable
+    # so it can be used mathematically. different to the previously used sales_data variable
+    sales_data = [int(num) for num in data]
+    # calls upate_sales_worksheet functionand passes it the sales_data variable with all the data
+    update_sales_worksheet(sales_data)
+    # calls calculate_surplus_data function, passing it the sales_data list to use in the calculation
+    calculate_surplus_data(sales_data)
+
+
+print("Welcome to Love Sandwiches Data Automation")
+
+# calls the main function and all the other functions within it
+main()
