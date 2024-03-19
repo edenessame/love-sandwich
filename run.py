@@ -8,7 +8,7 @@ import gspread
 from google.oauth2.service_account import Credentials
 
 # imports pprint method that prints data that is easier to read
-from pprint import pprint
+# from pprint import pprint
 
 # constant variables in all uppercase, to tell others they shouldn't be changed
 # lists the APIs the program should access in order to run
@@ -39,7 +39,7 @@ def get_sales_data():
         print("Data should be six numbers, seperated by commas.")
         print("Example: 10,20,30,40,50,60\n")
 
-        data_str = input("Enter your data here: ")
+        data_str = input("Enter your data here:\n")
         
         # split function converts one full string at the commas into a seperate list of items so each item can be seperatly accessed
         # eg not "1,2,3,4", but ["1", "2", "3", "4"] they are still strings though and have to be turned into integers to work on mathematically
