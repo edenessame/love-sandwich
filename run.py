@@ -81,35 +81,37 @@ def validate_data(values):
     return True  
 
 
-def update_sales_worksheet(data):
+# def update_sales_worksheet(data):
     """
     Update sales worksheet in google sheets.
     adding a new row with the list data provided
+    code commented out, replaced by the update_worksheet function
     """
-    print("Updating sales worksheet...\n")
+#    print("Updating sales worksheet...\n")
     # acesses google sheets using the constant variable SHEETS and then just the "sales" worksheet in
     # there using the gspread worksheet() method and puts it in a variable sales_worksheet
-    sales_worksheet = SHEET.worksheet("sales")
+#    sales_worksheet = SHEET.worksheet("sales")
     # now the sheet is accessed, another gspread method- append_row() is used to add a new row
     # to the spread sheet, pass it the variable "data" in the () to add the data in that variable to
     # the spread sheet
-    sales_worksheet.append_row(data)
-    print("Sales worksheet updated successfully.\n")
+#    sales_worksheet.append_row(data)
+#    print("Sales worksheet updated successfully.\n")
 
-def update_surplus_worksheet(data):
+# def update_surplus_worksheet(data):
     """
     Update surplus worksheet in google sheets.
     adding a new row with the list data provided
+    code commented out, replaced by the update_worksheet function
     """
-    print("Updating surplus worksheet...\n")
+#    print("Updating surplus worksheet...\n")
     # acesses google sheets using the constant variable SHEETS and then just the "sales" worksheet in
     # there using the gspread worksheet() method and puts it in a variable surplus_worksheet
-    surplus_worksheet = SHEET.worksheet("surplus")
+#    surplus_worksheet = SHEET.worksheet("surplus")
     # now the sheet is accessed, another gspread method- append_row() is used to add a new row
     # to the spread sheet, pass it the variable "data" in the () to add the data in that variable to
     # the spread sheet
-    surplus_worksheet.append_row(data)
-    print("Surplus worksheet updated successfully.\n")
+#   surplus_worksheet.append_row(data)
+#    print("Surplus worksheet updated successfully.\n")
 
 def update_worksheet(data, worksheet):
     """
@@ -156,6 +158,26 @@ def calculate_surplus_data(sales_row):
     # return the suplus_data array created in the function and store it in a variable in the main function
     return surplus_data   
 
+def get_last_5_entries_sales():
+    """
+    Collects columns of data from sales worksheet, collecting the last 5 
+    entries for each sandwich and returns a list of lists
+    """
+    sales = SHEET.worksheet("sales")
+    # col_values() method provided by gspread allows access to a single column in the worksheet, with
+    # a number in the (), but to access all you have to use a for loop
+    # column = sales.col_values(3)
+    # print(column)
+
+    # creates an empty array, then loops through the columns in range 1-7 
+    # then adds them seperatly to the array columns with append, then "[-5:]" slices 
+    # the last 5 items, we need the ":" because we want to slice multiple values from the list
+    columns = []
+    for ind in range(1, 7):
+        column = sales.col_values(ind)
+        columns.append(column[-5:])
+    pprint(columns)    
+
 def main():
     """
     runs all the main functions
@@ -185,4 +207,6 @@ def main():
 print("Welcome to Love Sandwiches Data Automation")
 
 # calls the main function and all the other functions within it
-main()
+# main()
+
+get_last_5_entries_sales()
