@@ -167,7 +167,6 @@ def get_last_5_entries_sales():
     # col_values() method provided by gspread allows access to a single column in the worksheet, with
     # a number in the (), but to access all you have to use a for loop
     # column = sales.col_values(3)
-    # print(column)
 
     # creates an empty array, then loops through the columns in range 1-7 
     # then adds them seperatly to the array columns with append, then "[-5:]" slices 
@@ -176,7 +175,35 @@ def get_last_5_entries_sales():
     for ind in range(1, 7):
         column = sales.col_values(ind)
         columns.append(column[-5:])
-    pprint(columns)    
+    
+    return columns   
+
+def calculate_stock_data(data):
+    """
+    Calculate the average stock for each item type adding 10%
+    """
+    print("Calculating stock data...\n")
+    # empty array to add averages to from for loop bellow
+    new_stock_data = []
+
+    # loops through each column in "data" which is the worksheet thats passed when the function is called 
+    # getting each number as a string, have to add int() to turn the strings into integers so can do calculations with them
+    # then work out the average, using the sum() method adds all items in the () so all the columns in (int_column)
+    # this is then divided by the length of the column using len(int_column) to give the average 
+    # then add 10%, then round them to whole numbers, then add them to the empty array
+    for column in data:
+        int_column = [int(num) for num in column]
+        # sum() adds all items in the variable written in () together, len() gets the amount of items in the (variable) 
+        average = sum(int_column) / len(int_column)
+        # * 1.1 adds 10%
+        stock_num = average * 1.1
+        # round() rounds the items in the () to whole numbers rather than decimals
+        new_stock_data.append(round(stock_num))
+
+    return new_stock_data
+
+
+
 
 def main():
     """
@@ -202,11 +229,18 @@ def main():
     # they then replace those words in the update_worksheet function, so it can access the variable and
     # worksheet that they are assigned to
     update_worksheet(new_surplus_data, "surplus")
-
+    # gets last 5 days sales from the sales worksheet
+    sales_columns = get_last_5_entries_sales()
+    # passes the data recieved from get last 5 entries sales function thats saved in sales_columns variable
+    # into calculate_stock_data function. this adds the entries together in each column and divides by the number of 
+    # entries in the column to give an average + 10%
+    stock_data = calculate_stock_data(sales_columns)
+    # calls update_worksheet function again, same as before, passing it the stock_data and thelling it to update
+    # the "stock" worksheet
+    update_worksheet(stock_data, "stock")
 
 print("Welcome to Love Sandwiches Data Automation")
 
 # calls the main function and all the other functions within it
-# main()
+main()
 
-get_last_5_entries_sales()
