@@ -111,6 +111,21 @@ def update_surplus_worksheet(data):
     surplus_worksheet.append_row(data)
     print("Surplus worksheet updated successfully.\n")
 
+def update_worksheet(data, worksheet):
+    """
+    Refactored function to do the jub of multiple similar functions
+    Recieves a list of integers to be inserted into a work sheet
+    Update the relevant worksheet with the data provided when the function is called
+    in the main function area
+    the parameters "data" and "worksheet "become what is put in their place when the function is called
+    eg. update_worksheet(sales_data, "sales") this accesses the "sales" worksheet and 
+    appends the sales_data to the bottom of the spreadsheet
+    """
+    print(f"Updating {worksheet} worksheet...\n")
+    worksheet_to_update = SHEET.worksheet(worksheet)
+    worksheet_to_update.append_row(data)
+    print(f"{worksheet} worksheet updated successfully\n")
+
 def calculate_surplus_data(sales_row):
     """
     Compare sales with stock and calculate the surplus for each item type
@@ -152,12 +167,19 @@ def main():
     # loops through the data array and turns the strings in to integers and assigns it to sales_data variable
     # so it can be used mathematically. different to the previously used sales_data variable
     sales_data = [int(num) for num in data]
-    # calls upate_sales_worksheet functionand passes it the sales_data variable with all the data
-    update_sales_worksheet(sales_data)
+    # calls upate_worksheet function and passes it the sales_data variable with the in put sales for the day to be
+    # assigned to the data parameter and the string "sales" to be assigned to the worksheet parameter
+    # they then replace those words in the update_worksheet function, so it can access the variable and
+    # worksheet that they are assigned to
+    update_worksheet(sales_data, "sales")
     # calls calculate_surplus_data function, passing it the sales_data list to use in the calculation
     # subtracting it from the stock to get the new surplus data
     new_surplus_data = calculate_surplus_data(sales_data)
-    update_surplus_worksheet(new_surplus_data)
+    # calls upate_worksheet function and passes it the new_surplus_data variable with the calculated surplus to be
+    # assigned to the data parameter and the string "surplus" to be assigned to the worksheet parameter
+    # they then replace those words in the update_worksheet function, so it can access the variable and
+    # worksheet that they are assigned to
+    update_worksheet(new_surplus_data, "surplus")
 
 
 print("Welcome to Love Sandwiches Data Automation")
